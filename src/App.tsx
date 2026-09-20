@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { api } from '@appdeploy/client';
+import { api } from './api';
 import { ArrowDownLeft, ArrowUpRight, Bell, Cable, ChevronRight, CreditCard, Eye, EyeOff, Gift, Grid2X2, Home, MoreHorizontal, Phone, Receipt, Send, Settings, ShieldCheck, Sparkles, UserRound, Wallet, Wifi, Zap } from 'lucide-react';
 
 type Tx={id:string|number;title:string;subtitle:string;amount:number;incoming?:boolean};
@@ -45,7 +45,7 @@ function App(){
  const [user,setUser]=useState<User|null>(null); const [txs,setTxs]=useState<Tx[]>([]); const [tab,setTab]=useState('Home'); const [show,setShow]=useState(true); const [modal,setModal]=useState<Modal>(null); const [toast,setToast]=useState(''); const [profilePage,setProfilePage]=useState<'menu'|'personal'|'security'|'settings'|'help'>('menu');
  const notify=(s:string)=>{setToast(s);window.setTimeout(()=>setToast(''),2500)};
  const refresh=async(u:User)=>{const r=await api.get('/api/account/'+u.id);const serverHistory=r.data.transactions||[];setUser(r.data.user);setTxs(serverHistory);writeHistory(u.id,serverHistory);return r};
- const ready=(u:User)=>{refresh(u).then(()=>setUser(u)).catch(()=>setUser(u))};
+ const ready=(u:User)=>{refresh(u).catch(()=>setUser(u))};
  useEffect(()=>{const raw=sessionStorage.getItem('bayu_user');if(raw)try{ready(JSON.parse(raw))}catch{}},[]);
  useEffect(()=>{if(user){sessionStorage.setItem('bayu_user',JSON.stringify(user));writeHistory(user.id,txs)}else sessionStorage.removeItem('bayu_user')},[user,txs]);
  const onChanged=async(u:User,local:Tx[])=>{try{for(const t of local){if(String(t.id).startsWith('BU-DEMO-'))continue;await api.post('/api/transactions',{userId:u.id,title:t.title,subtitle:t.subtitle,amount:t.amount,incoming:t.incoming,createdAt:t.createdAt})}const r=await api.get('/api/account/'+u.id);setUser(r.data.user);setTxs(r.data.transactions);writeHistory(u.id,r.data.transactions);notify('Transaction successful — demo only')}catch(e){const err=e as any;notify(err?.response?.data?.message||'Transaction could not be saved. Please try again.')}};
