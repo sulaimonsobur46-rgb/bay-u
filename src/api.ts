@@ -1,0 +1,3 @@
+type Result={data:any};
+async function request(method:string,path:string,data?:any):Promise<Result>{const init:RequestInit={method,headers:{'Content-Type':'application/json'}};if(data!==undefined)init.body=JSON.stringify(data);const res=await fetch(path,init);const payload=await res.json().catch(()=>({message:'Server returned an invalid response.'}));if(!res.ok){const e:any=new Error(payload?.message||'Request failed');e.response={data:payload};e.data=payload;throw e}return{data:payload}}
+export const api={get:(path:string)=>request('GET',path),post:(path:string,data?:any)=>request('POST',path,data),put:(path:string,data?:any)=>request('PUT',path,data)};
