@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#fffef0}
+*{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;background:#fff7fb!important}button,input{font:inherit}button{cursor:pointer}
+.bg-emerald-700{background-color:#db2777!important}.bg-emerald-600{background-color:#ec4899!important}.bg-emerald-100{background-color:#fce7f3!important}.bg-emerald-50{background-color:#fdf2f8!important}.text-emerald-700{color:#be185d!important}.text-emerald-600{color:#db2777!important}.text-emerald-500{color:#ec4899!important}.text-emerald-100{color:#fce7f3!important}.border-emerald-500{border-color:#ec4899!important}.from-emerald-700{--tw-gradient-from:#db2777 var(--tw-gradient-from-position)!important}.via-emerald-600{--tw-gradient-via:#ec4899 var(--tw-gradient-via-position)!important}.to-teal-500{--tw-gradient-to:#d946ef var(--tw-gradient-to-position)!important}.from-slate-950.to-emerald-800{--tw-gradient-to:#9d174d!important}
